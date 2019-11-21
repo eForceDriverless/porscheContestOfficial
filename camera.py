@@ -36,6 +36,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     lane_lines_image = display_lines(img, lane_lines)
     heading_image = display_heading_line(img, compute_steering_angle(img, lane_lines))
 
+    # gpioInit()
+    # motorInit()
+
+    # drive(0.3)
+    # steer(angle)
+
     if i % 10 == 0:
         cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
         cv2.imwrite(f"heading_{i}.jpg", heading_image)
