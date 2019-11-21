@@ -90,13 +90,16 @@ def getDistanceUS():
     wiringpi.digitalWrite(SONIC_TRIG_GPIO, 1)
     time.sleep(0.00001)
     wiringpi.digitalWrite(SONIC_TRIG_GPIO, 0)
-
+    
     # save StartTime
+    StartTime = time.time()
     while wiringpi.digitalRead(SONIC_ECHO_GPIO) == 0:
         StartTime = time.time()
 
-    # save time of arrival
+    timeOut = StartTime+0.005
+    StopTime = time.time()
     while wiringpi.digitalRead(SONIC_ECHO_GPIO) == 1:
+        if(time.time()>timeOut): return -1
         StopTime = time.time()
 
     # time difference between start and arrival
