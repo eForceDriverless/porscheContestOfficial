@@ -35,6 +35,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     angle = max(60, angle)
     angle = min(120, angle)
 
+    print("angle", angle)
+
     curr_angle = angle
 
     lane_lines_image = display_lines(img, lane_lines)

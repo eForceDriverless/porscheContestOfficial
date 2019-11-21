@@ -61,14 +61,13 @@ def average_slope_intercept(frame, line_segments):
     If all line slopes are < 0: then we only have detected left lane
     If all line slopes are > 0: then we only have detected right lane
     """
-    print('in function')
     lane_lines = []
     if line_segments is None:
-        print('No line_segment segments detected')
+        # print('No line_segment segments detected')
         return lane_lines
 
     height, width, _ = frame.shape
-    print(height, width)
+    # print(height, width)
     left_fit = []
     right_fit = []
 
@@ -101,7 +100,7 @@ def average_slope_intercept(frame, line_segments):
     if len(right_fit) > 0:
         lane_lines.append(make_points(frame, right_fit_average))
 
-    print('lane lines: %s' % lane_lines)  # [[[316, 720, 484, 432]], [[1009, 720, 718, 432]]]
+    # print('lane lines: %s' % lane_lines)  # [[[316, 720, 484, 432]], [[1009, 720, 718, 432]]]
 
     return lane_lines, left_fit, right_fit
 
