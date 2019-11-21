@@ -51,6 +51,7 @@ def detect_line_segments(cropped_edges):
     line_segments = cv2.HoughLinesP(cropped_edges, rho, angle, min_threshold, 
                                     np.array([]), minLineLength=8, maxLineGap=4)
 
+    # print('line segments', line_segments)
     return line_segments
 
 
@@ -63,10 +64,11 @@ def average_slope_intercept(frame, line_segments):
     """
     lane_lines = []
     if line_segments is None:
-        logging.info('No line_segment segments detected')
+        print('No line_segment segments detected')
         return lane_lines
 
     height, width, _ = frame.shape
+    print(height, width)
     left_fit = []
     right_fit = []
 

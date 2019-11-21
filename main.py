@@ -11,7 +11,6 @@ def display_lines(frame, lines, line_color=(0, 255, 0), line_width=2):
     line_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1)
     return line_image
 
-frame = cv2.imread('test.jpg')
 
 # edges = detect_edges(frame)
 # cv2.imshow("edges", edges)
@@ -25,6 +24,8 @@ frame = cv2.imread('test.jpg')
 
 
 # cv2.destroyAllWindows()
+frame = cv2.imread('test2.jpg')
+frame = cv2.resize(frame, (640, 480), interpolation = cv2.INTER_AREA)
 
 lane_lines = detect_lane(frame)
 print(len(lane_lines))
