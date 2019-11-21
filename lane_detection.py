@@ -33,14 +33,17 @@ def region_of_interest(edges):
 
     # only focus bottom half of the screen
     polygon = np.array([[
-        (0, height * 1 / 2),
-        (width, height * 1 / 2),
-        (width, height),
-        (0, height),
+        (0, height * 0.55),
+        (width, height * 0.55),
+        (width, 0.9 * height),
+        (0, 0.9 * height),
     ]], np.int32)
 
     cv2.fillPoly(mask, polygon, 255)
     cropped_edges = cv2.bitwise_and(edges, mask)
+
+
+
     return cropped_edges
 
 
@@ -175,7 +178,7 @@ def make_points(frame, line):
     y1 = height  # bottom of the frame
     y2 = int(y1 * 1 / 2)  # make points from middle of the frame down
 
-    if math.abs(slope - 0) < 0.001:
+    if abs(slope - 0) < 0.001:
         x1 = 2 * width
         x2 = 2 * width
     else:
