@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from lane_detection import detect_lane, detect_edges, region_of_interest
+from lane_detection import detect_lane, detect_edges, region_of_interest, detect_line_segments, average_slope_intercept
 from heading import *
 import math
 
@@ -46,14 +46,27 @@ def display_heading_line(frame, steering_angle, line_color=(0, 0, 255), line_wid
 # cv2.imshow("edges", cropped)
 # cv2.waitKey(0)
 
-
+print('here')
 
 # cv2.destroyAllWindows()
-frame = cv2.imread('test2.jpg')
+frame = cv2.imread('IMG_1057.png')
 frame = cv2.resize(frame, (640, 480), interpolation = cv2.INTER_AREA)
 
-lane_lines = detect_lane(frame)
-print(len(lane_lines))
+edges = detect_edges(frame)
+cropped_edges = region_of_interest(edges)
+line_segments = detect_line_segments(cropped_edges)
+# print(line_segments)
+print('here')
+lane_lines = average_slope_intercept(frame, line_segments)
+print(lane_lines)
+
+# cv2.imshow("heading", cropped_edges)
+# cv2.waitKey(0)
+
+
+
+# lane_lines = detect_lane(frame)
+# print(len(lane_lines))
 lane_lines_image = display_lines(frame, lane_lines)
 heading_image = display_heading_line(frame, compute_steering_angle(frame, lane_lines))
 cv2.imshow("lane lines", lane_lines_image)
