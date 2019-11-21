@@ -23,7 +23,7 @@ def compute_steering_angle(frame, lane_lines):
     """
     if len(lane_lines) == 0:
         # logging.info('No lane lines detected, do nothing')
-        return -90
+        return 90
 
     height, width, _ = frame.shape
     if len(lane_lines) == 1:

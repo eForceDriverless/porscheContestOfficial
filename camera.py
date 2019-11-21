@@ -46,6 +46,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
         cv2.imwrite(f"heading_{i}.jpg", heading_image)
 
+    cv2.imshow("Stream", lane_lines_image)
+    key = cv2.waitKey(1)
+    if key == 27 or key == 113:
+        # out.release()
+        cv2.destroyAllWindows()
+        break
+
     # print(len(lane_lines))
     # lane_lines_image = display_lines(frame, lane_lines)
     # cv2.imshow("lane lines", lane_lines_image)
