@@ -11,10 +11,10 @@ from carinterface import steer, drive, motorInit, gpioInit, getDistanceUS
 
 #Initialize camera
 camera = PiCamera()
-camera.resolution = (320, 240)
+camera.resolution = (160, 120)
 camera.color_effects = (128, 128)
 camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(320, 240))
+rawCapture = PiRGBArray(camera, size=(160, 120))
 gpioInit()
 motorInit()
 #Let camera warm up
@@ -30,22 +30,23 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         distance = getDistanceUS()
         startTime = time.time()
         if (distance > 40 or distance == -1):
-            drive(0.3)
+            drive(0.4)
+            stop = False
         else:
             drive(0)
             stop = True
-    else:
+    elif not stop:
         if(abs(curr_angle - 90) < 4):
             drive(0.6)
         else:
-            drive(0.35)
+            drive(0.4)
     img = np.array(frame.array, dtype=np.uint8)
     # cv2.imshow("Preview", img)
 
     lane_lines = detect_lane(img)
     new_angle = compute_steering_angle(img, lane_lines)
 
-    angle = stabilize_steering_angle(curr_angle, new_angle, len(lane_lines), 5, 4)
+    angle = stabilize_steering_angle(curr_angle, new_angle, len(lane_lines), 10, 10)
 
     angle = max(65, angle)
     angle = min(115, angle)
