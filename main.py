@@ -48,21 +48,19 @@ def display_heading_line(frame, steering_angle, line_color=(0, 0, 255), line_wid
 
 
 # cv2.destroyAllWindows()
-frame = cv2.imread('heading_130.jpg')
+frame = cv2.imread('IMG_1057.png')
 frame = cv2.resize(frame, (640, 480), interpolation = cv2.INTER_AREA)
 
 edges = detect_edges(frame)
 cropped_edges = region_of_interest(edges)
 line_segments = detect_line_segments(cropped_edges)
 # print(line_segments)
-lane_lines, left_fit, right_fit = average_slope_intercept(frame, line_segments)
-# print(lane_lines)
+print('here')
+lane_lines = average_slope_intercept(frame, line_segments)
+print(lane_lines)
 
-
-# print(left_fit)
 # cv2.imshow("heading", cropped_edges)
 # cv2.waitKey(0)
-
 
 
 
