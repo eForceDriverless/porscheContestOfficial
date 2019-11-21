@@ -31,6 +31,10 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     new_angle = compute_steering_angle(img, lane_lines)
 
     angle = stabilize_steering_angle(curr_angle, new_angle, len(lane_lines))
+
+    angle = max(60, angle)
+    angle = min(120, angle)
+
     curr_angle = angle
 
     lane_lines_image = display_lines(img, lane_lines)
@@ -39,19 +43,19 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # gpioInit()
     # motorInit()
 
-    # drive(0.3)
+    # drive(0.2)
     # steer(angle)
 
-    if i % 10 == 0:
-        cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
-        cv2.imwrite(f"heading_{i}.jpg", heading_image)
+    # if i % 10 == 0:
+    #     cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
+    #     cv2.imwrite(f"heading_{i}.jpg", heading_image)
 
-    cv2.imshow("Stream", lane_lines_image)
-    key = cv2.waitKey(1)
-    if key == 27 or key == 113:
-        # out.release()
-        cv2.destroyAllWindows()
-        break
+    # cv2.imshow("Stream", lane_lines_image)
+    # key = cv2.waitKey(1)
+    # if key == 27 or key == 113:
+    #     # out.release()
+    #     cv2.destroyAllWindows()
+    #     break
 
     # print(len(lane_lines))
     # lane_lines_image = display_lines(frame, lane_lines)

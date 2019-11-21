@@ -72,14 +72,14 @@ def average_slope_intercept(frame, line_segments):
     left_fit = []
     right_fit = []
 
-    boundary = 0.5
+    boundary = 0.35
     left_region_boundary = width * (1 - boundary)  # left lane line segment should be on left 2/3 of the screen
     right_region_boundary = width * boundary # right lane line segment should be on left 2/3 of the screen
 
     for line_segment in line_segments:
         for x1, y1, x2, y2 in line_segment:
             if x1 == x2:
-                print('skipping vertical line segment (slope=inf): %s' % line_segment)
+                # print('skipping vertical line segment (slope=inf): %s' % line_segment)
                 continue
             fit = np.polyfit((x1, x2), (y1, y2), 1)
             slope = fit[0]
@@ -87,12 +87,11 @@ def average_slope_intercept(frame, line_segments):
             # if slope < 0:
             if x1 < left_region_boundary and x2 < left_region_boundary:
                     left_fit.append((slope, intercept))
-            # else:
             elif x1 > right_region_boundary and x2 > right_region_boundary:
                     right_fit.append((slope, intercept))
 
-    print(left_fit)
-    print(right_fit)
+    # print(left_fit)
+    # print(right_fit)
 
     left_fit_average = np.average(left_fit, axis=0)
     if len(left_fit) > 0:
@@ -104,7 +103,7 @@ def average_slope_intercept(frame, line_segments):
 
     print('lane lines: %s' % lane_lines)  # [[[316, 720, 484, 432]], [[1009, 720, 718, 432]]]
 
-    return lane_lines
+    return lane_lines, left_fit, right_fit
 
 
 # def average_slope_intercept(frame, line_segments):
