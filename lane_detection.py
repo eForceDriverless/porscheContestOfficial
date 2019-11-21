@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import math
 
 def detect_lane(frame):
     
@@ -174,9 +175,13 @@ def make_points(frame, line):
     y1 = height  # bottom of the frame
     y2 = int(y1 * 1 / 2)  # make points from middle of the frame down
 
-    # bound the coordinates within the frame
-    x1 = max(-width, min(2 * width, int((y1 - intercept) / slope)))
-    x2 = max(-width, min(2 * width, int((y2 - intercept) / slope)))
+    if math.abs(slope - 0) < 0.001:
+        x1 = 2 * width
+        x2 = 2 * width
+    else:
+        # bound the coordinates within the frame
+        x1 = max(-width, min(2 * width, int((y1 - intercept) / slope)))
+        x2 = max(-width, min(2 * width, int((y2 - intercept) / slope)))
     return [[x1, y1, x2, y2]]
 
 
