@@ -6,9 +6,9 @@ import wiringpi
 import time
 import sys
 
-MIN_ANGLE = 50
+MIN_ANGLE = 60
 MAX_ANGLE = 140
-STEERING_CORRECTION=0
+STEERING_CORRECTION=-10
 
 SPEED = 300
 
@@ -60,8 +60,9 @@ def Car_Init():
     wiringpi.pinMode(SONIC_TRIG_GPIO, wiringpi.GPIO.OUTPUT)
     
     GPIO.setmode(GPIO.BCM)
-   # GPIO.setup(SW_GPIO, GPIO.IN)
-    #GPIO.add_event_detect(SW_GPIO, GPIO.FALLING, button_pressed, 200)
+	# GPIO.setup(SW_GPIO, GPIO.IN)
+	#GPIO.add_event_detect(SW_GPIO, GPIO.FALLING, button_pressed, 200)
+	
 
 def Car_Enable():
 	wiringpi.pwmWrite(MOTOR_PWM_GPIO, 0)
