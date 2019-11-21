@@ -15,21 +15,30 @@ camera.resolution = (320, 240)
 camera.color_effects = (128, 128)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(320, 240))
-
+gpioInit()
+motorInit()
 #Let camera warm up
 time.sleep(0.2)
 
 curr_angle = 90
 new_angle = 90
-
+startTime = time.time()
 i = 0
+stop = False
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    distance = getDistanceUS()
-    if (distance > 40 or distance == -1):
-        drive(0.3)
+    if time.time() - startTime > 0.5:
+        distance = getDistanceUS()
+        startTime = time.time()
+        if (distance > 40 or distance == -1):
+            drive(0.3)
+        else:
+            drive(0)
+            stop = True
     else:
-        drive(0)
-
+        if(abs(curr_angle - 90) < 4):
+            drive(0.6)
+        else:
+            drive(0.35)
     img = np.array(frame.array, dtype=np.uint8)
     # cv2.imshow("Preview", img)
 
@@ -41,29 +50,28 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     angle = max(65, angle)
     angle = min(115, angle)
 
-    print("angle", angle)
+    #print("angle", angle)
 
     curr_angle = angle
 
     lane_lines_image = display_lines(img, lane_lines)
     heading_image = display_heading_line(img, compute_steering_angle(img, lane_lines))
 
-    gpioInit()
-    motorInit()
 
-    drive(0.2)
+
+    drive(0.3)
     steer(angle)
 
     # if i % 10 == 0:
     #     cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
     #     cv2.imwrite(f"heading_{i}.jpg", heading_image)
 
-    # cv2.imshow("Stream", lane_lines_image)
-    # key = cv2.waitKey(1)
-    # if key == 27 or key == 113:
-    #     # out.release()
-    #     cv2.destroyAllWindows()
-    #     break
+    #cv2.imshow("Stream", lane_lines_image)
+    key = cv2.waitKey(1)
+    if key == 27 or key == 113:
+         cv2.destroyAllWindows()
+         drive(0)
+         break
 
     # print(len(lane_lines))
     # lane_lines_image = display_lines(frame, lane_lines)
