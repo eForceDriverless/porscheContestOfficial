@@ -6,7 +6,7 @@ def detect_lane(frame):
     edges = detect_edges(frame)
     cropped_edges = region_of_interest(edges)
     line_segments = detect_line_segments(cropped_edges)
-    lane_lines = average_slope_intercept(frame, line_segments)
+    lane_lines, _, _ = average_slope_intercept(frame, line_segments)
     
     return lane_lines
 
