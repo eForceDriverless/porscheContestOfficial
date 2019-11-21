@@ -8,6 +8,7 @@ import sys
 
 MIN_ANGLE = 60
 MAX_ANGLE = 140
+STEER_OFFSET = 2
 
 MAX_SPEED = 1000
 DIR_FORWARD=0
@@ -68,6 +69,7 @@ def gpioInit():
     GPIO.setmode(GPIO.BCM)
 
 def steer(angle):
+	angle=angle + STEER_OFFSET
     if(angle<MIN_ANGLE):
         angle=MIN_ANGLE
     if(angle>MAX_ANGLE):
