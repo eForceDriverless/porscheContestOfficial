@@ -30,7 +30,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     lane_lines = detect_lane(img)
     new_angle = compute_steering_angle(img, lane_lines)
 
-    angle = stabilize_steering_angle(curr_angle, new_angle, len(lane_lines))
+    angle = stabilize_steering_angle(curr_angle, new_angle, len(lane_lines), 5, 5)
 
     angle = max(60, angle)
     angle = min(120, angle)
