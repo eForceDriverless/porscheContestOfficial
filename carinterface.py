@@ -69,7 +69,7 @@ def gpioInit():
     GPIO.setmode(GPIO.BCM)
 
 def steer(angle):
-	angle=angle + STEER_OFFSET
+    angle=angle + STEER_OFFSET
     if(angle<MIN_ANGLE):
         angle=MIN_ANGLE
     if(angle>MAX_ANGLE):

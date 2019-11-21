@@ -7,7 +7,7 @@ import numpy as np
 
 from lane_detection import detect_lane, display_lines
 from heading import compute_steering_angle, stabilize_steering_angle, display_heading_line
-from carinterface import steer, drive, motorInit, gpioInit
+from carinterface import steer, drive, motorInit, gpioInit, getDistanceUS
 
 #Initialize camera
 camera = PiCamera()
@@ -24,6 +24,12 @@ new_angle = 90
 
 i = 0
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    distance = getDistanceUS()
+    if (distance > 40 or distance == -1):
+        drive(0.3)
+    else:
+        drive(0)
+
     img = np.array(frame.array, dtype=np.uint8)
     # cv2.imshow("Preview", img)
 
@@ -42,11 +48,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     lane_lines_image = display_lines(img, lane_lines)
     heading_image = display_heading_line(img, compute_steering_angle(img, lane_lines))
 
-    # gpioInit()
-    # motorInit()
+    gpioInit()
+    motorInit()
 
-    # drive(0.2)
-    # steer(angle)
+    drive(0.2)
+    steer(angle)
 
     # if i % 10 == 0:
     #     cv2.imwrite(f"lane_lines_{i}.jpg", lane_lines_image)
